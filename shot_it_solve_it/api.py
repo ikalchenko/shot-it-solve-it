@@ -1,8 +1,9 @@
 from flask import Flask, jsonify, request
-from os import path
+from shot_it_solve_it.model import predict_numbers
+from os import path, getcwd
 
 app = Flask(__name__)
-UPLOAD_FOLDER = '/home/ikalchenko/education/shot-it-solve-it/media'
+UPLOAD_FOLDER = path.join(getcwd(), 'media')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -12,7 +13,10 @@ def main():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    return jsonify({'info': 1})
+    img = request.files['file']
+    img.save(path.join(UPLOAD_FOLDER, img.filename))
+    result = predict_numbers(path.join(UPLOAD_FOLDER, img.filename))
+    return jsonify({'info': result})
 
 
 if __name__ == '__main__':
