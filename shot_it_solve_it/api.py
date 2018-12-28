@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request
-from shot_it_solve_it.model import predict_numbers
 from os import path
 
 app = Flask(__name__)
@@ -13,10 +12,7 @@ def main():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    img = request.files['file']
-    img.save(path.join(UPLOAD_FOLDER, img.filename))
-    result = predict_numbers(path.join(UPLOAD_FOLDER, img.filename))
-    return jsonify({'info': result})
+    return jsonify({'info': 1})
 
 
 if __name__ == '__main__':
